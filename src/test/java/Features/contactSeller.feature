@@ -1,7 +1,8 @@
 Feature: Add puppy to favorites and  contact seller fuctionality
 
   Background: user  is on find a puppy page
-  Given user is on home page and navigates to find a puppy page
+  Given user is on home page 
+  And user navigates to find a puppy page
   
   
   Scenario: user adds a puppy to favourites and contact the seller

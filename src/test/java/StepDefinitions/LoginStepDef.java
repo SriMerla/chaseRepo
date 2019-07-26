@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import com.PuppyFind.Pages.HomePage;
 import com.PuppyFind.Pages.LoginPage;
 
-import cucumber.TextContext;
+import base.TextContext;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -21,23 +21,31 @@ import managers.WebDriverManager;
 import util.CONSTANTS;
 
 public class LoginStepDef {
-	WebDriver driver;
+	//WebDriver driver;
+	//PageObjectManager pageObjectManager;
+	//WebDriverManager webDriverManager;
+	
+	TextContext testContext;
 	LoginPage loginPage;
-	PageObjectManager pageObjectManager;
-	WebDriverManager webDriverManager;
+	HomePage homePage;
+	 public LoginStepDef(TextContext context) {
+	 testContext = context;
+	 loginPage = testContext.getPageObjectManager().getLoginPage();
+	// homePage = testContext.getPageObjectManager().getHomePage();
+	 }
 	@Given("^user is on web page$")
 	public void user_is_on_web_page() {
 		
-		webDriverManager = new WebDriverManager();
-		driver = webDriverManager.getDriver();
+		//webDriverManager = new WebDriverManager();
+		//driver = webDriverManager.getDriver();
 		
 	}
 
 
 	@When("^user enters valid credentials$")
 	public void user_enters_valid_credentials() throws InterruptedException {
-        pageObjectManager = new PageObjectManager(driver);
-		loginPage = pageObjectManager.getLoginPage();
+       // pageObjectManager = new PageObjectManager(driver);
+		//loginPage = pageObjectManager.getLoginPage();
 		loginPage.useronloginpage();
 		loginPage.loginIntoPage();
 		System.out.println(loginPage.checkvalue="CheckValue--1");
@@ -55,20 +63,20 @@ public class LoginStepDef {
 	@Then("^user is on find a puppy page$")
 	public void user_is_on_find_a_puppy_page() throws InterruptedException{
 		loginPage.confirmationMessage();
-		driver.navigate().back();
+		testContext.webDriverManager.driver.navigate().back();
 		System.out.println(loginPage.checkvalue="CheckValue--2");
 		//Thread.sleep(2000);
-		webDriverManager.closeDriver();
+		testContext.webDriverManager.closeDriver();
 		
 	   
 	}
 
 	@Given("^user is on login page$")
 	public void user_is_on_login_page() {
-		webDriverManager = new WebDriverManager();
-		driver = webDriverManager.getDriver();
-		pageObjectManager = new PageObjectManager(driver);
-		loginPage = pageObjectManager.getLoginPage();
+		//webDriverManager = new WebDriverManager();
+		//driver = webDriverManager.getDriver();
+		//pageObjectManager = new PageObjectManager(driver);
+		//loginPage = pageObjectManager.getLoginPage();
 		loginPage.useronloginpage();
 		
 	}
@@ -92,27 +100,27 @@ public class LoginStepDef {
 	@Then("^user clicks the links to verify the pages responding to the links$")
 	public void user_clicks_the_links_to_verify_the_pages_responding_to_the_links() throws InterruptedException {
 		loginPage.registertoBuyPuppy.click();
-		 String registerUrl = driver.getCurrentUrl();
+		 String registerUrl = testContext.webDriverManager.driver.getCurrentUrl();
 		// Assert.assertEquals("https://www.puppyfind.com/register/?back=", registerUrl);
 		Thread.sleep(CONSTANTS.STEP_DELAY);
-		driver.navigate().back();
+		testContext.webDriverManager.driver.navigate().back();
 		
 		 loginPage.registertoSellPuppy.click();
 		 Thread.sleep(CONSTANTS.STEP_DELAY);
-		 String sellUrl =driver.getCurrentUrl();
+		 String sellUrl =testContext.webDriverManager.driver.getCurrentUrl();
 		// Assert.assertEquals("https://www.puppyfind.com/list/", sellUrl);
 		 Thread.sleep(CONSTANTS.STEP_DELAY);
-		 driver.navigate().to("https://www.puppyfind.com/login/");
+		 testContext.webDriverManager.driver.navigate().to("https://www.puppyfind.com/login/");
 		 
 		 loginPage.ForgetPwd.click();
-		 String forgetPwd = driver.getCurrentUrl();
+		 String forgetPwd = testContext.webDriverManager.driver.getCurrentUrl();
 		 Thread.sleep(CONSTANTS.STEP_DELAY);
 		// Assert.assertEquals("https://www.puppyfind.com/login_help/?back=", forgetPwd);
 		 Thread.sleep(CONSTANTS.STEP_DELAY);
-		 driver.navigate().back();
+		 testContext.webDriverManager.driver.navigate().back();
 		 
 		 System.out.println("Links are responding to their respective pages");
-	    webDriverManager.closeDriver();
+	    testContext.webDriverManager.closeDriver();
 	}
 
 }

@@ -2,10 +2,13 @@ package StepDefinitions;
 
 import org.openqa.selenium.WebDriver;
 
+import com.PuppyFind.Pages.FindAPuppyPage;
 import com.PuppyFind.Pages.HomePage;
 import com.PuppyFind.Pages.LoginPage;
+import com.PuppyFind.Pages.SearchOptionsPage;
 import com.PuppyFind.Pages.UpdatePage;
 
+import base.TextContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -16,35 +19,48 @@ import util.CONSTANTS;
 
 public class UpdateAccount {
 	
-	WebDriver driver;
-	LoginPage loginPage;
-	HomePage homePage;
-	UpdatePage updatePage;
-	PageObjectManager pageObjectManager;
-	WebDriverManager webDriverManager;
 	
-	@Given("^user is on webPage and logs in$")
-	public void user_is_on_webPage_and_logs_in() throws InterruptedException {
-		webDriverManager = new WebDriverManager();
-		driver = webDriverManager.getDriver();
-		pageObjectManager = new PageObjectManager(driver);
-		loginPage = pageObjectManager.getLoginPage();
-		loginPage.useronloginpage();
-		loginPage.loginIntoPage();
-		loginPage.userAction();
-	    
-	}
+	//  WebDriver driver; 
+	 
+	 // PageObjectManager pageObjectManager; 
+	 // WebDriverManager webDriverManager;
+	 
+	
+	  TextContext testContext;
+		LoginPage loginPage;
+		HomePage homePage;
+		UpdatePage updatePage; 
+		
+		 public UpdateAccount(TextContext context) {
+		 testContext = context;
+		 loginPage = testContext.getPageObjectManager().getLoginPage();
+		 homePage = testContext.getPageObjectManager().getHomePage();
+		 updatePage = testContext.getPageObjectManager().getUpdatePage();
+		 }
+	
+	
+	  @Given("^user is on webPage and logs in$") public void
+	  user_is_on_webPage_and_logs_in() throws InterruptedException {
+	  //webDriverManager = new WebDriverManager(); 
+	 // driver = webDriverManager.getDriver(); 
+	 // pageObjectManager = new PageObjectManager(driver); loginPage = pageObjectManager.getLoginPage();
+	  loginPage.useronloginpage(); 
+	  loginPage.loginIntoPage();
+	  loginPage.userAction();
+	  
+	  }
+	 
 
 	@Given("^user navigates to My Account$")
 	public void user_navigates_to_My_Account() {
-		homePage = pageObjectManager.getHomePage();
+		//homePage = pageObjectManager.getHomePage();
 		homePage.myAccount.click();
 	    
 	}
 
 	@When("^user enters the details to update the account$")
 	public void user_enters_the_details_to_update_the_account() throws InterruptedException {
-		updatePage = pageObjectManager.getUpdatePage();
+		//updatePage = pageObjectManager.getUpdatePage();
 		updatePage.updateContactInfo("james", "smith");
 	}
 
@@ -62,7 +78,7 @@ public class UpdateAccount {
 		updatePage.updateConfirmaionMsg();
 		System.out.println("Account is updated");
 		
-		webDriverManager.closeDriver();
+		testContext.webDriverManager.closeDriver();
 	    
 	}
 

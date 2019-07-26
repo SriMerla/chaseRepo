@@ -4,10 +4,12 @@ import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 
+import com.PuppyFind.Pages.ContactSellerPage;
 import com.PuppyFind.Pages.CreateAccountPage;
 import com.PuppyFind.Pages.HomePage;
 import com.PuppyFind.Pages.LoginPage;
 
+import base.TextContext;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -17,19 +19,29 @@ import managers.PageObjectManager;
 import managers.WebDriverManager;
 
 public class CreateAnAccountStepDef {
-	WebDriver driver;
+	//WebDriver driver;
 	LoginPage loginPage;
-	HomePage homePage;
-	PageObjectManager pageObjectManager;
-	WebDriverManager webDriverManager;
+	//HomePage homePage;
+	//PageObjectManager pageObjectManager;
+	//WebDriverManager webDriverManager;
 	CreateAccountPage createAccountPage;
 	
+	TextContext testContext;
+	ContactSellerPage contactSellerPage;
+	 
+	 public CreateAnAccountStepDef(TextContext context) {
+	 testContext = context;
+	 createAccountPage = testContext.getPageObjectManager().getCreateAccountPage();
+	 loginPage = testContext.getPageObjectManager().getLoginPage();
+	 //homePage = testContext.getPageObjectManager().getHomePage();
+	 }
+	 
 	@Given("^user is on loginpage$")
 	public void user_is_on_loginpage(){
-		webDriverManager = new WebDriverManager();
-		driver = webDriverManager.getDriver();
-		pageObjectManager = new PageObjectManager(driver);
-		loginPage = pageObjectManager.getLoginPage();
+		//webDriverManager = new WebDriverManager();
+		//driver = webDriverManager.getDriver();
+		//pageObjectManager = new PageObjectManager(driver);
+		//loginPage = pageObjectManager.getLoginPage();
 		loginPage.memberLogin.click();
 		
 		
@@ -45,10 +57,10 @@ public class CreateAnAccountStepDef {
 	@When("^user enters valid data on Page to create an account$")
 	public void user_enters_valid_data_on_Page_to_create_an_account(DataTable userDetails) throws InterruptedException{
 	   for(Map<String, String> data : userDetails.asMaps(String.class, String.class)){
-		   createAccountPage = pageObjectManager.getCreateAccountPage();
+		 //  createAccountPage = pageObjectManager.getCreateAccountPage();
 		   createAccountPage.createAccount(data.get("firstname"), data.get("lastname"), data.get("email"), data.get("confirmEmail"), data.get("pass"), data.get("confirmPass"));
-		   driver.switchTo().alert().accept();
-		   driver.navigate().back();
+		   testContext.getWebDriverManager().driver.switchTo().alert().accept();
+		   testContext.getWebDriverManager().driver.navigate().back();
 		   
 	   }
 	    
@@ -57,7 +69,7 @@ public class CreateAnAccountStepDef {
 	@Then("^user verifies confirmation message$")
 	public void user_verifies_confirmation_message() {
 		System.out.println("user created their accounts");
-		webDriverManager.closeDriver();
+		testContext.webDriverManager.closeDriver();
 	    
 	}
 		

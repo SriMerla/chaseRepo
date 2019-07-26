@@ -3,10 +3,12 @@ package StepDefinitions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import com.PuppyFind.Pages.ContactSellerPage;
 import com.PuppyFind.Pages.FindAPuppyPage;
 import com.PuppyFind.Pages.HomePage;
 import com.PuppyFind.Pages.LoginPage;
 
+import base.TextContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -16,22 +18,31 @@ import managers.WebDriverManager;
 import util.CONSTANTS;
 
 public class FindAPuppyStepDef {
-	WebDriver driver;
+	//WebDriver driver;
+	
+	//PageObjectManager pageObjectManager;
+	//WebDriverManager webDriverManager;
+	
+	TextContext testContext;
 	FindAPuppyPage findAPuppyPage;
-	PageObjectManager pageObjectManager;
-	WebDriverManager webDriverManager;
+	 public FindAPuppyStepDef(TextContext context) {
+	 testContext = context;
+	 findAPuppyPage = testContext.getPageObjectManager().getFindAPuppyPage();
+	 //loginPage = testContext.getPageObjectManager().getLoginPage();
+	 //homePage = testContext.getPageObjectManager().getHomePage();
+	 }
 	
 	@Given("^user is on home page$")
 	public void user_is_on_home_page() {
-		webDriverManager = new WebDriverManager();
-		driver = webDriverManager.getDriver();
+		//webDriverManager = new WebDriverManager();
+		//driver = webDriverManager.getDriver();
 	    
 	}
 	
 	@Given("^user navigates to find a puppy page$")
 	public void user_navigates_to_find_a_puppy_page() {
-		pageObjectManager = new PageObjectManager(driver);
-		findAPuppyPage = pageObjectManager.getFindAPuppyPage();
+		//pageObjectManager = new PageObjectManager(driver);
+		//findAPuppyPage = pageObjectManager.getFindAPuppyPage();
 		findAPuppyPage.PuppyFind.click();	
 	    
 	}
@@ -65,16 +76,16 @@ public class FindAPuppyStepDef {
 		Assert.assertEquals("1 - 10 of 26", res);
 		
 		System.out.println("Number of results displayes on the page" + res);
-		webDriverManager.closeDriver();
+		testContext.webDriverManager.closeDriver();
 	   
 	}
 	
 	@Given("^user navigates to Find a puppy page$")
 	public void user_navigates_to_Find_a_puppy_page() {
-		webDriverManager = new WebDriverManager();
-		driver = webDriverManager.getDriver();
-		pageObjectManager = new PageObjectManager(driver);
-		findAPuppyPage = pageObjectManager.getFindAPuppyPage();
+		//webDriverManager = new WebDriverManager();
+		//driver = webDriverManager.getDriver();
+		//pageObjectManager = new PageObjectManager(driver);
+		//findAPuppyPage = pageObjectManager.getFindAPuppyPage();
 		findAPuppyPage.PuppyFind.click();
 	}
 
@@ -93,9 +104,9 @@ public class FindAPuppyStepDef {
 
 	@Then("^user verifies the search results$")
 	public void user_verifies_the_search_results() throws Throwable {
-      String res = driver.findElement(By.xpath("//a[contains(text(),'Frenchie Pug')]")).getText();
+      String res = testContext.webDriverManager.driver.findElement(By.xpath("//a[contains(text(),'Frenchie Pug')]")).getText();
       Assert.assertEquals("Frenchie Pug", res);
-      webDriverManager.closeDriver();
+      testContext.webDriverManager.closeDriver();
 	   
 	}
 	
@@ -119,7 +130,7 @@ public class FindAPuppyStepDef {
 	@Then("^user verifies the puppies for sale in the state$")
 	public void user_verifies_the_puppies_for_sale_in_the_state() {
 		findAPuppyPage.stateRes();
-		webDriverManager.closeDriver();
+		testContext.webDriverManager.closeDriver();
 	   
 	}
 	@When("^user selects size , upkeep, purpose$")
@@ -131,7 +142,7 @@ public class FindAPuppyStepDef {
 	@Then("^user verifies the search results for find puppy by life style$")
 	public void user_verifies_the_search_results_for_find_puppy_by_life_style()  {
 		findAPuppyPage.lifeStyleRes();
-		webDriverManager.closeDriver();
+		testContext.webDriverManager.closeDriver();
 	   
 	}
 	
@@ -143,9 +154,9 @@ public class FindAPuppyStepDef {
 
 	@Then("^user verifies the browse results$")
 	public void user_verifies_the_browse_results() {
-		String res = driver.getCurrentUrl();
+		String res = testContext.webDriverManager.driver.getCurrentUrl();
 		Assert.assertEquals("https://www.puppyfind.com/browse/?str=g", res);
-		webDriverManager.closeDriver();
+		testContext.webDriverManager.closeDriver();
 	    
 	}
 
